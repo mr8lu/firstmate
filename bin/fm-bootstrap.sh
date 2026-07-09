@@ -284,7 +284,7 @@ secondmate_liveness_sweep() {
     [ -n "$target" ] || target="$window"
     verdict=$(fm_backend_agent_alive "$backend" "$target" 2>/dev/null) || verdict="unknown"
     case "$harness" in
-      claude|codex|opencode|pi|grok) ;;
+      claude|codex|opencode|pi|grok|gemini) ;;
       *) [ "$verdict" = dead ] && verdict=unknown ;;
     esac
     case "$verdict" in
@@ -464,7 +464,7 @@ crew_dispatch_validate() {
     return 0
   fi
   err=$(jq -r '
-    def verified($h): ["claude","codex","opencode","pi","grok"] | index($h);
+    def verified($h): ["claude","codex","opencode","pi","grok","gemini"] | index($h);
     def effort_ok($h; $e):
       if $e == null then true
       elif ($e | type) != "string" then false
@@ -585,3 +585,4 @@ if [ "${FM_BOOTSTRAP_DETECT_ONLY:-0}" != 1 ]; then
   fleet_sync
 fi
 exit 0
+0
